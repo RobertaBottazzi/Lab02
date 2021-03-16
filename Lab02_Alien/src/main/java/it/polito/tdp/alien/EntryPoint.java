@@ -1,6 +1,7 @@
 package it.polito.tdp.alien;
 
 import javafx.application.Application;
+
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,9 +12,14 @@ import javafx.stage.Stage;
 public class EntryPoint extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
-        
+    public void start(Stage stage) throws Exception {        
+        FXMLLoader loader= new FXMLLoader(getClass().getResource("/fxml/Scene.fxml"));
+    	Parent root = loader.load(); //prima load() veniva applicato direttamente sulla classe, adesso ad un suo oggetto cosÃ¬ da poterne avere il riferimento e utilizzarlo dopo con setModel();
+    	FXMLController controller=loader.getController();
+    	
+    	AlienDictionary model= new AlienDictionary();
+    	controller.setModel(model);
+    	
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
         
