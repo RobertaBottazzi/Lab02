@@ -36,9 +36,12 @@ public class FXMLController {
     	String wordSenzaSpazi= word.replaceAll(" ","");
     	char[] wordInChar= wordSenzaSpazi.toCharArray();
     	boolean wordOk=true;
+    	boolean question=false;
     	for(char c: wordInChar) {
     		if(!Character.isAlphabetic(c))
     			wordOk=false;
+    		if(c=='?')
+    			question=true;
     	}
     	if(wordOk) {
     		String wordLower=word.toLowerCase();
@@ -51,9 +54,21 @@ public class FXMLController {
         		txtTranslation.appendText(model.translateWord(wordLower).toString()+"\n");        		
         	}
     	}
-    	
-    }
-    
+    	if(question) {
+    		String wordLower=word.toLowerCase();
+    		char c='a';
+    		String wordQuestion = "";
+    		boolean trovata=false;
+    		while(c<='z') {
+    			wordQuestion=wordLower.replace('?', c++);
+    			if(model.translateWord(wordQuestion)!="") 
+    				trovata=true;
+    			if(trovata)
+    				break;
+    		}
+    		txtTranslation.appendText(model.translateWord(wordQuestion).toString()+"\n");
+    	}
+    }    
     
     @FXML
     void doReset(ActionEvent event) {
