@@ -3,35 +3,39 @@ package it.polito.tdp.alien;
 import java.util.*;
 
 public class AlienDictionary {
-	private List<Word> dictionary;
+	private Map<String, Word> dictionaryMap;
 	
 	public AlienDictionary() {
-		this.dictionary = new ArrayList<>();
+		this.dictionaryMap= new HashMap<>();
 	}
 
 	public void addWord(String alienWord, String translation) {
-		for(Word w: dictionary) {
-			if(w.getAlienWord().equals(alienWord))
-				w.setTranslation(translation);
+		if(dictionaryMap.containsKey(alienWord)) {
+			dictionaryMap.get(alienWord).addTranslation(translation);
 		}
-		dictionary.add(new Word(alienWord,translation));		
+		else {
+			dictionaryMap.put(alienWord, new Word(alienWord));
+			dictionaryMap.get(alienWord).addTranslation(translation);
+		}		
 	}
 	
 	public String translateWord(String alienWord) {
-		for(Word w: dictionary) {
-			if(w.getAlienWord().equals(alienWord))
-				return w.getTranslation();
+		String risultato="";
+		if(dictionaryMap.containsKey(alienWord)) {
+			for(String s: dictionaryMap.get(alienWord).getTranslation()) {
+				risultato+=s+"\n";
+			}
 		}
-		return null;		
+		return risultato;		
 	}
 	
 	@Override
 	public String toString() {
 		String risultato="";
-		for(Word w: dictionary) {
-			risultato+=w.getAlienWord()+" "+w.getTranslation()+"\n";			
+		for(Word w:dictionaryMap.values()) {
+			risultato+=w.getAlienWord()+" "+w.toString()+"\n";
 		}
-		return risultato;		
+		return risultato;
 	}
 	
 

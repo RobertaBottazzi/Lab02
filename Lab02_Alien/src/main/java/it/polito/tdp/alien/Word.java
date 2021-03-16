@@ -5,18 +5,18 @@ import java.util.*;
 public class Word {
 	
 	private String alienWord;
-	private String translation;
+	private List<String> translation;
 	
-	public Word(String alienWord, String traduzione) {
+	public Word(String alienWord) {
 		this.alienWord = alienWord;
-		this.translation=traduzione;
+		this.translation=new ArrayList<>();
 	}
 	
 	public String getAlienWord() {
 		return alienWord;
 	}
 
-	public String getTranslation() {
+	public List<String> getTranslation() {
 		return translation;
 	}
 
@@ -24,8 +24,8 @@ public class Word {
 		this.alienWord = alienWord;
 	}
 
-	public void setTranslation(String traduzione) {
-		this.translation=traduzione;
+	public void addTranslation(String traduzione) {
+		this.translation.add(traduzione);
 	}
 
 	@Override
@@ -36,6 +36,7 @@ public class Word {
 		result = prime * result + ((translation == null) ? 0 : translation.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -57,6 +58,18 @@ public class Word {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		String risultato="";
+		for(String s: translation) {
+			risultato+=s+" ";
+		}
+		return risultato;
+	}
+
+	
+	
 	
 	
 	
