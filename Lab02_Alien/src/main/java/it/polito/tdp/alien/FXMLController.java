@@ -33,11 +33,16 @@ public class FXMLController {
     @FXML
     void doTranslate(ActionEvent event) {
     	String word=txtAlien.getText();
-    	String wordSenzaSpazi= word.replaceAll(" ","");
+    	//controllo che le parole inserite siano valide (quindi tutte composte da caratteri alfabetici)
+    	String wordSenzaSpazi= word.replaceFirst(" ","");
     	char[] wordInChar= wordSenzaSpazi.toCharArray();
     	boolean wordOk=true;
     	boolean question=false;
     	for(char c: wordInChar) {
+    		if(c==' ') {
+    			txtTranslation.appendText("You can only add one translation at a time!"+"\n");
+    			return;
+    		}
     		if(!Character.isAlphabetic(c))
     			wordOk=false;
     		if(c=='?')
@@ -48,31 +53,43 @@ public class FXMLController {
     		int i= wordLower.indexOf(" ");
     		if(i!=-1) {
     			model.addWord(wordLower.substring(0,i), wordLower.substring(i+1,wordLower.length()));
-        		txtTranslation.appendText("New Alien word added: "+wordLower+"\n"+model.toString());    				
+        		txtTranslation.appendText("New Alien word added: "+wordLower+"\n"+"Dictionary: "+model.toString()); 
     		}
         	else {
-        		txtTranslation.appendText(model.translateWord(wordLower).toString()+"\n");        		
+        		txtTranslation.appendText("Translation: "+model.translateWord(wordLower)+"\n");        		
         	}
     	}
+    	//controllo se nella parola inserita c'è un ?
     	if(question) {
     		String wordLower=word.toLowerCase();
+    		int i=0;
+    		char[] wordLowerInChar=wordLower.toCharArray();
+    		for(char c: wordLowerInChar) {
+    			if(c=='?')
+    				i+=1;
+    		}
+    		if(i>1) {
+    			txtTranslation.appendText("Action not allowed!"+"\n");
+    			return;
+    		}
     		char c='a';
     		String wordQuestion = "";
     		boolean trovata=false;
-    		while(c<='z') {
+    		while(c<='z'){
     			wordQuestion=wordLower.replace('?', c++);
     			if(model.translateWord(wordQuestion)!="") 
     				trovata=true;
     			if(trovata)
     				break;
     		}
-    		txtTranslation.appendText(model.translateWord(wordQuestion).toString()+"\n");
+    		txtTranslation.appendText("Translation: "+model.translateWord(wordQuestion).toString()+"\n");
     	}
     }    
     
     @FXML
     void doReset(ActionEvent event) {
     	txtTranslation.clear();
+    	model.getDictionaryMap().clear();
     }
     
     public void setModel(AlienDictionary model) {

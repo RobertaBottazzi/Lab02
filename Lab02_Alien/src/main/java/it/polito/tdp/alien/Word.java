@@ -62,9 +62,8 @@ public class Word {
 	@Override
 	public String toString() {
 		String risultato="";
-		for(String s: translation) {
+		for(String s: translation) 
 			risultato+=s+" ";
-		}
 		return risultato;
 	}
 

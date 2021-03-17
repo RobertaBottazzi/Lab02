@@ -23,12 +23,16 @@ public class AlienDictionary {
 		String risultato="";
 		if(dictionaryMap.containsKey(alienWord)) {
 			for(String s: dictionaryMap.get(alienWord).getTranslation()) {
-				risultato+=s+"\n";
+				risultato+=s+" ";
 			}
 		}
 		return risultato;		
 	}
 	
+	public Map<String, Word> getDictionaryMap() {
+		return dictionaryMap;
+	}
+
 	@Override
 	public String toString() {
 		String risultato="";
